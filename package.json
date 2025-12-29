@@ -8,7 +8,9 @@
   "scripts": {
     "dev": "tsx src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "eval": "evalite evals/janusdoc.eval.ts",
+    "eval:watch": "evalite evals/janusdoc.eval.ts --watch"
   },
   "keywords": [
     "task",
@@ -22,6 +24,7 @@
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^22.0.0",
+    "evalite": "^0.19.0",
     "janusdoc": "^0.1.0",
     "tsx": "^4.19.0",
     "typescript": "^5.6.0"
