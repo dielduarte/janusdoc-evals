@@ -10,7 +10,8 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "eval": "evalite evals/janusdoc.eval.ts",
-    "eval:watch": "evalite evals/janusdoc.eval.ts --watch"
+    "eval:watch": "evalite evals/janusdoc.eval.ts --watch",
+    "janusdoc:run": "janusdoc run"
   },
   "keywords": [
     "task",
