@@ -8,6 +8,10 @@ export interface Config {
   env: string;
   /** Maximum number of tasks per user */
   maxTasksPerUser: number;
+  /** Enable request logging */
+  enableLogging: boolean;
+  /** Request timeout in milliseconds */
+  requestTimeout: number;
 }
 
 /**
@@ -18,5 +22,7 @@ export function getConfig(): Config {
     port: parseInt(process.env.PORT || '3000', 10),
     env: process.env.NODE_ENV || 'development',
     maxTasksPerUser: parseInt(process.env.MAX_TASKS_PER_USER || '100', 10),
+    enableLogging: process.env.ENABLE_LOGGING === 'true',
+    requestTimeout: parseInt(process.env.REQUEST_TIMEOUT || '30000', 10),
   };
 }
