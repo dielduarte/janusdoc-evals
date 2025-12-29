@@ -85,4 +85,26 @@ router.get('/stats', (req: Request, res: Response) => {
   res.json(stats);
 });
 
+/**
+ * POST /tasks/:id/duplicate - Duplicate an existing task
+ */
+router.post('/tasks/:id/duplicate', (req: Request, res: Response) => {
+  const original = taskService.getTask(req.params.id);
+
+  if (!original) {
+    res.status(404).json({ error: 'Task not found' });
+    return;
+  }
+
+  const duplicated = taskService.createTask({
+    title: `${original.title} (copy)`,
+    description: original.description,
+    priority: original.priority,
+    assignee: original.assignee,
+    dueDate: original.dueDate,
+  });
+
+  res.status(201).json(duplicated);
+});
+
 export default router;
