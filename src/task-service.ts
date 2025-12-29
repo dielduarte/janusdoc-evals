@@ -54,8 +54,9 @@ export function getTask(id: string): Task | undefined {
 
 /**
  * List all tasks with optional filters
+ * Results are now sorted by createdAt date (newest first)
  * @param filters - Optional filters to apply
- * @returns Array of tasks matching the filters
+ * @returns Array of tasks matching the filters, sorted by creation date
  */
 export function listTasks(filters?: TaskFilters): Task[] {
   let result = Array.from(tasks.values());
@@ -71,6 +72,9 @@ export function listTasks(filters?: TaskFilters): Task[] {
   if (filters?.assignee) {
     result = result.filter((task) => task.assignee === filters.assignee);
   }
+
+  // Sort by creation date, newest first
+  result.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
   return result;
 }
