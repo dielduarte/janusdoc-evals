@@ -78,9 +78,18 @@ router.delete('/tasks/:id', (req: Request, res: Response) => {
 });
 
 /**
- * GET /tasks/stats - Get task statistics
+ * GET /stats - Get task statistics
+ * @deprecated Use GET /tasks/stats instead
  */
 router.get('/stats', (req: Request, res: Response) => {
+  const stats = taskService.getTaskStats();
+  res.json(stats);
+});
+
+/**
+ * GET /tasks/stats - Get task statistics (new endpoint)
+ */
+router.get('/tasks/stats', (req: Request, res: Response) => {
   const stats = taskService.getTaskStats();
   res.json(stats);
 });
