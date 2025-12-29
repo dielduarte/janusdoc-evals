@@ -6,7 +6,10 @@ import { precision, recall, f1Score, getScoreSummary } from './scorers.js';
 evalite('JanusDoc Documentation Suggestions', {
   data: () => testScenarios,
 
-  task: async (scenario) => {
+  task: async (prNumber) => {
+    // Find the full scenario data
+    const scenario = testScenarios.find(s => s.prNumber === prNumber)!;
+
     console.log(`\n🧪 Testing: ${scenario.name} (PR #${scenario.prNumber})`);
     console.log(`   ${scenario.description}`);
 
@@ -15,12 +18,12 @@ evalite('JanusDoc Documentation Suggestions', {
     console.log(`   📊 ${output.suggestions.length} suggestions`);
     console.log(`   ${getScoreSummary(output, scenario)}`);
 
-    return output;
+    return { output, scenario };
   },
 
   scorers: {
-    Precision: (output, scenario) => precision(output, scenario),
-    Recall: (output, scenario) => recall(output, scenario),
-    F1Score: (output, scenario) => f1Score(output, scenario),
+    Precision: (result) => precision(result.output, result.scenario),
+    Recall: (result) => recall(result.output, result.scenario),
+    F1Score: (result) => f1Score(result.output, result.scenario),
   },
 });
