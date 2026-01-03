@@ -10,16 +10,16 @@ This style guide outlines the conventions and patterns used in the TaskFlow docu
 
 - **Tone**: The documentation maintains a professional yet approachable tone. It is informative and direct, aiming to provide clear instructions and explanations.
 - **Voice**: The use of the second person ("you") is common, making the documentation feel more engaging and user-centric. For example, "Create a new task" directly addresses the user.
-- **Active vs Passive Voice**: The documentation predominantly uses active voice to enhance clarity and directness. For example, "The API layer handles HTTP requests" instead of "HTTP requests are handled by the API layer."
+- **Active vs Passive Voice**: The documentation predominantly uses active voice to enhance clarity and directness. For example, "The service layer contains business logic" instead of "Business logic is contained in the service layer."
 
 ## 2. Structure
 
-- **Document Organization**: Each document begins with a title and a brief overview, followed by sections that detail specific aspects of the topic.
-- **Heading Patterns**: Headings are structured hierarchically using Markdown syntax:
-  - `#` for main titles
-  - `##` for major sections
-  - `###` for subsections
-- **Sections**: Each section is clearly defined, often including an overview, detailed explanations, examples, and use cases.
+- **Document Organization**: Each document begins with a title followed by an overview, which provides context. Sections are clearly defined with headings and subheadings.
+- **Heading Patterns**: Use of hierarchical headings (H1, H2, H3) is consistent. For example:
+  - H1 for main titles (e.g., `# Tasks API`)
+  - H2 for major sections (e.g., `## Overview`)
+  - H3 for subsections (e.g., `### GET /api/tasks`)
+- **Sections**: Each section typically includes a description, parameters, request/response examples, and use cases where applicable.
 
 ## 3. Formatting
 
@@ -27,28 +27,31 @@ This style guide outlines the conventions and patterns used in the TaskFlow docu
   ```bash
   curl http://localhost:3000/api/tasks
   ```
-- **Bold/Italics**: Important terms or actions are often bolded for emphasis. For example, "Create a new task" may be bolded to highlight the action.
-- **List Styles**: Bulleted lists are used for unordered items, while numbered lists are used for ordered steps or sequences. For example:
-  - **Use Cases**:
-    1. Dashboard displays
-    2. Progress tracking
+- **Bold/Italics**: Important terms or actions are often bolded for emphasis. For example, "Create a new task" is emphasized as a key action.
+- **List Styles**: Bulleted lists are used for enumerating items, while numbered lists are used for step-by-step instructions. For example:
+  - **Use Cases**: 
+    - Dashboard displays
+    - Progress tracking
+  - **Steps**:
+    1. Clone the repository
+    2. Install dependencies
 
 ## 4. Conventions
 
 - **API Documentation**: Each API endpoint is documented with the following structure:
-  - **Method**: The HTTP method (e.g., `GET`, `POST`) is clearly stated.
-  - **Endpoint**: The URL path is provided.
-  - **Description**: A brief explanation of what the endpoint does.
-  - **Request Body**: If applicable, a table or code block describes the expected request body.
-  - **Response**: The expected response status and format are detailed.
-- **Parameter Descriptions**: Parameters are described in tables, including their type, whether they are required, and a brief description.
-- **Examples Format**: Examples are provided in code blocks, often prefixed with a brief description of what the example demonstrates.
+  - **Method**: The HTTP method (e.g., `POST`, `GET`) is clearly stated.
+  - **Endpoint**: The URL path is specified.
+  - **Authentication**: Information about authentication requirements is included.
+  - **Parameters**: Query and body parameters are described in tables for clarity.
+  - **Response**: Success and error responses are documented with example payloads.
+- **Parameter Descriptions**: Each parameter is described with its type, whether it is required, and a brief description.
+- **Examples Format**: Examples are provided in code blocks, demonstrating how to use the API effectively.
 
 ## 5. Language
 
-- **Technical Terminology**: The documentation uses technical terms relevant to APIs, TypeScript, and task management. Terms like "CRUD operations," "query parameters," and "status" are common.
-- **Jargon Level**: The jargon level is appropriate for developers familiar with REST APIs and TypeScript. Explanations are provided where necessary to ensure clarity.
-- **Sentence Complexity**: Sentences are generally concise and straightforward, avoiding overly complex structures. For example, "The Tasks API provides CRUD operations for managing tasks" is clear and to the point.
+- **Technical Terminology**: The documentation uses technical terms relevant to API development and task management, such as "CRUD operations," "query parameters," and "status."
+- **Jargon Level**: The level of jargon is appropriate for the target audience, assuming familiarity with basic API concepts and programming.
+- **Sentence Complexity**: Sentences are generally concise and straightforward, avoiding overly complex structures. For example, "The Statistics API provides insights into task distribution across different states."
 
 ## Examples
 
@@ -61,33 +64,29 @@ Create a new task.
 
 **Request Body:**
 
-| Field       | Type   | Required | Description                |
-|-------------|--------|----------|----------------------------|
-| title       | string | Yes      | Task title                 |
-| description | string | Yes      | Detailed description        |
+| Field       | Type   | Required | Description                     |
+|-------------|--------|----------|---------------------------------|
+| title       | string | Yes      | Task title                      |
+| description | string | Yes      | Detailed description            |
 | priority    | string | No       | Priority level: 'low', 'medium', 'high' |
 ```
 
-### Code Block Example
+### Code Example
 
-```bash
-curl -X POST http://localhost:3000/api/tasks \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "New task",
-    "description": "Task description"
-  }'
-```
+```typescript
+export function getTaskStats(): Record<TaskStatus, number> {
+  const stats: Record<TaskStatus, number> = {
+    [TaskStatus.TODO]: 0,
+    [TaskStatus.IN_PROGRESS]: 0,
+    [TaskStatus.DONE]: 0,
+  };
 
-### Use Case Example
+  for (const task of tasks.values()) {
+    stats[task.status]++;
+  }
 
-```markdown
-## Use Cases
-
-The statistics endpoint is useful for:
-
-1. **Dashboard displays** - Show task distribution
-2. **Progress tracking** - Monitor team velocity
+  return stats;
+}
 ```
 
 By adhering to this style guide, contributors can ensure that the TaskFlow documentation remains clear, consistent, and user-friendly.
