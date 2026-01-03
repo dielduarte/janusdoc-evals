@@ -54,22 +54,22 @@ export function getTask(id: string): Task | undefined {
 
 /**
  * List all tasks with optional filters
- * @param filters - Optional filters to apply
+ * @param query - Optional filters to apply
  * @returns Array of tasks matching the filters
  */
-export function listTasks(filters?: TaskFilters): Task[] {
+export function listTasks(query?: TaskFilters): Task[] {
   let result = Array.from(tasks.values());
 
-  if (filters?.status) {
-    result = result.filter((task) => task.status === filters.status);
+  if (query?.status) {
+    result = result.filter((task) => task.status === query.status);
   }
 
-  if (filters?.priority) {
-    result = result.filter((task) => task.priority === filters.priority);
+  if (query?.priority) {
+    result = result.filter((task) => task.priority === query.priority);
   }
 
-  if (filters?.assignee) {
-    result = result.filter((task) => task.assignee === filters.assignee);
+  if (query?.assignee) {
+    result = result.filter((task) => task.assignee === query.assignee);
   }
 
   return result;
