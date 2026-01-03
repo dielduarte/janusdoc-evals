@@ -8,7 +8,10 @@ const execAsync = promisify(exec);
 /**
  * Load environment variables from .envrc
  */
-function loadEnvFromEnvrc(): { GITHUB_TOKEN?: string; OPENAI_API_KEY?: string } {
+function loadEnvFromEnvrc(): {
+  GITHUB_TOKEN?: string;
+  OPENAI_API_KEY?: string;
+} {
   try {
     const envrcPath = join(process.cwd(), ".envrc");
     const content = readFileSync(envrcPath, "utf-8");
@@ -44,6 +47,7 @@ export interface JanusDocOutput {
     pr: number;
     repo: string;
     filesChanged: string[];
+    relevantDocs: string[];
     totalSuggestions: number;
   };
 }
@@ -59,7 +63,8 @@ export async function runJanusDoc(
     // Load env vars from .envrc if not in process.env
     const envFromFile = loadEnvFromEnvrc();
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN || envFromFile.GITHUB_TOKEN;
-    const OPENAI_API_KEY = process.env.OPENAI_API_KEY || envFromFile.OPENAI_API_KEY;
+    const OPENAI_API_KEY =
+      process.env.OPENAI_API_KEY || envFromFile.OPENAI_API_KEY;
 
     if (!GITHUB_TOKEN) {
       throw new Error("GITHUB_TOKEN not found");
@@ -113,6 +118,7 @@ export async function runJanusDoc(
         pr: prNumber,
         repo,
         filesChanged: [],
+        relevantDocs: [],
         totalSuggestions: 0,
       },
     };

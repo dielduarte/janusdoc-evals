@@ -1,14 +1,14 @@
-import { evalite } from 'evalite';
-import { testScenarios } from './test-scenarios.js';
-import { runJanusDoc } from './utils.js';
-import { precision, recall, f1Score, getScoreSummary } from './scorers.js';
+import { evalite } from "evalite";
+import { testScenarios } from "./test-scenarios.js";
+import { runJanusDoc } from "./utils.js";
+import { precision, recall, f1Score, getScoreSummary } from "./scorers.js";
 
-evalite('JanusDoc Documentation Suggestions', {
+evalite("JanusDoc Documentation Suggestions", {
   data: () => testScenarios,
 
   task: async (prNumber) => {
     // Find the full scenario data
-    const scenario = testScenarios.find(s => s.prNumber === prNumber)!;
+    const scenario = testScenarios.find((s) => s.prNumber === prNumber)!;
 
     console.log(`\n🧪 Testing: ${scenario.name} (PR #${scenario.prNumber})`);
     console.log(`   ${scenario.description}`);
