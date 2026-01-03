@@ -15,7 +15,9 @@ const tasks = new Map<string, Task>();
  * Generate a unique task ID
  */
 function generateId(): string {
-  return `task_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+  const timestamp = Date.now();
+  const random = Math.random().toString(36).substring(2, 9);
+  return `task_${timestamp}_${random}`;
 }
 
 /**
@@ -53,12 +55,10 @@ export function getTask(id: string): Task | undefined {
 }
 
 /**
- * List all tasks with optional filters
- * @param filters - Optional filters to apply
- * @returns Array of tasks matching the filters
+ * Apply filter to tasks
  */
-export function listTasks(filters?: TaskFilters): Task[] {
-  let result = Array.from(tasks.values());
+function applyFilters(tasks: Task[], filters?: TaskFilters): Task[] {
+  let result = tasks;
 
   if (filters?.status) {
     result = result.filter((task) => task.status === filters.status);
@@ -73,6 +73,16 @@ export function listTasks(filters?: TaskFilters): Task[] {
   }
 
   return result;
+}
+
+/**
+ * List all tasks with optional filters
+ * @param filters - Optional filters to apply
+ * @returns Array of tasks matching the filters
+ */
+export function listTasks(filters?: TaskFilters): Task[] {
+  const allTasks = Array.from(tasks.values());
+  return applyFilters(allTasks, filters);
 }
 
 /**
