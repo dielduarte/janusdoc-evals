@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import type { Request, Response } from 'express';
 import * as taskService from './task-service.js';
+import * as comments from './comments.js';
 import type { CreateTaskInput, UpdateTaskInput, TaskFilters } from './types.js';
 
 const router = Router();
@@ -83,6 +84,29 @@ router.delete('/tasks/:id', (req: Request, res: Response) => {
 router.get('/stats', (req: Request, res: Response) => {
   const stats = taskService.getTaskStats();
   res.json(stats);
+});
+
+/**
+ * POST /tasks/:id/comments - Add a comment to a task
+ */
+router.post('/tasks/:id/comments', (req: Request, res: Response) => {
+  const { author, text } = req.body;
+
+  if (!author || !text) {
+    res.status(400).json({ error: 'Author and text are required' });
+    return;
+  }
+
+  const comment = comments.addComment(req.params.id, author, text);
+  res.status(201).json(comment);
+});
+
+/**
+ * GET /tasks/:id/comments - Get all comments for a task
+ */
+router.get('/tasks/:id/comments', (req: Request, res: Response) => {
+  const taskComments = comments.getComments(req.params.id);
+  res.json(taskComments);
 });
 
 export default router;
